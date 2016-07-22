@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="http://aportolan.hr/kps/provisioning/operations"
+				xmlns:tns="http://aportolan.hr/kps/provisioning/operations"
+				xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:complexType name="Subscriber">
+		<xsd:sequence>
+			<xsd:element name="subscriber" type="xsd:string" />
+			<xsd:element name="route" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="ProvisioningState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="PENDING" />
+			<xsd:enumeration value="ERROR" />
+			<xsd:enumeration value="COMPLETE" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="ProvisionSubscriberRequestType">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="tns:Subscriber" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ProvisionSubscriberResponseType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="requestId" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ProvisioningStateRequestType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="requestId" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ProvisioningStateResponseType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="state" type="tns:ProvisioningState" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="CancelProvisioningRequestType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="requestId" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="CancelProvisioningResponseType" />
+
+	<xsd:element name="FaultMessageType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="errorMessage" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,5 @@
+use kps;
+db.createCollection('subscribers');
+db.createCollection('routes');
+db.createCollection('requests');
+db.createCollection('provisioning_system');

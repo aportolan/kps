@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ProvisioningNotificationService"
+	targetNamespace="http://aportolan.hr/kps/provisioning/notification"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://aportolan.hr/kps"
+	xmlns:types="http://aportolan.hr/kps/provisioning/notification"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<documentation>
+		API implemented by KPS client.
+
+		Provides notification of
+		provisioning request state change.
+	</documentation>
+
+	<types>
+		<xsd:schema targetNamespace="http://aportolan.hr/kps/provisioning/notification"
+			xmlns:tns="http://aportolan.hr/kps/provisioning/notification">
+
+			<xsd:simpleType name="ProvisioningState">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="PENDING" />
+					<xsd:enumeration value="ERROR" />
+					<xsd:enumeration value="COMPLETE" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:element name="NotifyProvisioningStateRequestType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="requestId" type="xsd:string" />
+						<xsd:element name="state" type="tns:ProvisioningState" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="NotifyProvisioningStateResponseType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="requestId" type="xsd:string" />
+						<xsd:element name="state" type="tns:ProvisioningState" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FaultMessageType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="errorMessage" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</types>
+
+	<message name="NotifyProvisioningStateRequest">
+		<part name="body" element="types:NotifyProvisioningStateRequestType" />
+	</message>
+
+	<message name="NotifyProvisioningStateResponse">
+		<part name="body" element="types:NotifyProvisioningStateResponseType" />
+	</message>
+
+	<message name="InvalidRequestFaultMessage">
+		<part name="body" element="types:FaultMessageType" />
+	</message>
+
+	<portType name="ProvisioningNotificationServicePortType">
+		<operation name="notifyProvisioningState">
+			<input message="tns:NotifyProvisioningStateRequest" />
+			<output message="tns:NotifyProvisioningStateResponse" />
+			<fault name="InvalidRequestFault" message="tns:InvalidRequestFaultMessage" />
+		</operation>
+	</portType>
+
+	<binding name="ProvisioningNotificationServiceBinding" type="tns:ProvisioningNotificationServicePortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<operation name="notifyProvisioningState">
+			<soap:operation soapAction="notifyProvisioningState" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+			<fault name="InvalidRequestFault">
+				<soap:fault name="InvalidRequestFault" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+	<service name="ProvisioningNotificationService">
+		<port name="ProvisioningNotificationServicePort" binding="tns:ProvisioningNotificationServiceBinding">
+			<soap:address location="http://example.com/client/services" />
+		</port>
+	</service>
+
+</definitions>

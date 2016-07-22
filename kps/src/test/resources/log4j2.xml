@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true" monitorInterval="30">
+
+	<Appenders>
+
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %-5level %logger{.} (%method:%line) - %msg%n" />
+			<!-- <PatternLayout pattern="%-5p [%X{ip}][%X{user}] %d{dd-MM HH:mm:ss} 
+				%m (%F:%L) \n" /> -->
+
+		</Console>
+
+		<Async name="ASYNC" bufferSize="512">
+			<AppenderRef ref="CONSOLE" />
+			<!-- <AppenderRef ref="ROLLING_RANDOM_ACCESS_FILE" /> -->
+			<!-- <AppenderRef ref="MAIL" /> -->
+		</Async>
+	</Appenders>
+	<Loggers>
+		<Logger name="hr.aportolan" level="error" additivity="false">
+			<AppenderRef ref="ASYNC" />
+		</Logger>
+		<Logger name="org.mongodb.driver" level="error" additivity="false">
+			<AppenderRef ref="ASYNC" />
+		</Logger>
+
+		<Root level="error">
+			<AppenderRef ref="ASYNC" />
+		</Root>
+	</Loggers>
+
+</Configuration>
