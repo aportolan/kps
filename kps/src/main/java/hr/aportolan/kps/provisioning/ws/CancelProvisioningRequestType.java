@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="errorMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="requestId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "errorMessage"
+    "requestId"
 })
-@XmlRootElement(name = "FaultMessageType")
-public class FaultMessageType {
+@XmlRootElement(name = "CancelProvisioningRequestType")
+public class CancelProvisioningRequestType {
 
     @XmlElement(required = true)
-    protected String errorMessage;
+    protected String requestId;
 
     /**
-     * Gets the value of the errorMessage property.
+     * Gets the value of the requestId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getRequestId() {
+        return requestId;
     }
 
     /**
-     * Sets the value of the errorMessage property.
+     * Sets the value of the requestId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setErrorMessage(String value) {
-        this.errorMessage = value;
+    public void setRequestId(String value) {
+        this.requestId = value;
     }
 
 }

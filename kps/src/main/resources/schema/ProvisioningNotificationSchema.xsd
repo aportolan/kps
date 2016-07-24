@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="http://aportolan.hr/kps/provisioning/ws"
+	xmlns:tns="http://aportolan.hr/kps/provisioning/ws" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:simpleType name="ProvisioningState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="PENDING" />
+			<xsd:enumeration value="ERROR" />
+			<xsd:enumeration value="COMPLETE" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="NotifyProvisioningStateRequestType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="requestId" type="xsd:string" />
+				<xsd:element name="state" type="tns:ProvisioningState" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="NotifyProvisioningStateResponseType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="requestId" type="xsd:string" />
+				<xsd:element name="state" type="tns:ProvisioningState" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="FaultMessageType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="errorMessage" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+
+
+	

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="errorMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="state" type="{http://aportolan.hr/kps/provisioning/ws}ProvisioningState"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "errorMessage"
+    "state"
 })
-@XmlRootElement(name = "FaultMessageType")
-public class FaultMessageType {
+@XmlRootElement(name = "ProvisioningStateResponseType")
+public class ProvisioningStateResponseType {
 
     @XmlElement(required = true)
-    protected String errorMessage;
+    protected ProvisioningState state;
 
     /**
-     * Gets the value of the errorMessage property.
+     * Gets the value of the state property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link ProvisioningState }
      *     
      */
-    public String getErrorMessage() {
-        return errorMessage;
+    public ProvisioningState getState() {
+        return state;
     }
 
     /**
-     * Sets the value of the errorMessage property.
+     * Sets the value of the state property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link ProvisioningState }
      *     
      */
-    public void setErrorMessage(String value) {
-        this.errorMessage = value;
+    public void setState(ProvisioningState value) {
+        this.state = value;
     }
 
 }
