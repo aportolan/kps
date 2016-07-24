@@ -26,7 +26,7 @@ public class ProvisioningSystemRepositoryTest {
 	@Test
 	public void save() {
 		ProvisioningSystem ps = new ProvisioningSystem();
-		ps.setIpAddress("localhost:8400");
+		ps.setIpAddress("localhost:8080/kps/provisioning");
 		provisioningSystemRepository.save(ps);
 	}
 

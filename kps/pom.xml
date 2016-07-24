@@ -23,14 +23,20 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.7</java.version>
+
 		<mongodb.uri>mongodb://admin:j6ngIRmkRg47@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/kps</mongodb.uri>
+		<client.ws.notify.url>
+			http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/client/services
+		</client.ws.notify.url>
 	</properties>
+
 
 	<profiles>
 		<profile>
 			<id>localhost</id>
 			<properties>
 				<mongodb.uri>mongodb://localhost:27017/kps</mongodb.uri>
+				<client.ws.notify.url>http://localhost:8400/client/services</client.ws.notify.url>
 			</properties>
 		</profile>
 
@@ -81,6 +87,15 @@
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-ws</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.11.0</version>
+		</dependency>
 	</dependencies>
 
 
@@ -103,7 +118,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<schemaDirectory>${project.basedir}/src/main/resources/schema</schemaDirectory>
+					<schemaDirectory>${project.basedir}/src/main/resources/schema/gen</schemaDirectory>
 					<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
 					<clearOutputDir>false</clearOutputDir>
 				</configuration>
@@ -120,7 +135,6 @@
 					</execution>
 				</executions>
 				<configuration>
-					<schemaLanguage>WSDL</schemaLanguage>
 					<schemaLanguage>WSDL</schemaLanguage>
 					<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 					<schemas>

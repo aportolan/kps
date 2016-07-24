@@ -3,3 +3,4 @@ db.createCollection('subscribers');
 db.createCollection('routes');
 db.createCollection('requests');
 db.createCollection('provisioning_system');
+db.createCollection('provisioning_system_request');

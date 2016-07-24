@@ -8,11 +8,13 @@ public class Routes {
 	@Id
 	private String id;
 	private String route;
+	private int local;
 
-	public Routes(String id, String route) {
+	public Routes(String id, String route, int local) {
 		super();
 		this.id = id;
 		this.route = route;
+		this.local = local;
 	}
 
 	public Routes() {
@@ -33,6 +35,14 @@ public class Routes {
 
 	public void setRoute(String route) {
 		this.route = route;
+	}
+
+	public int getLocal() {
+		return local;
+	}
+
+	public void setLocal(int local) {
+		this.local = local;
 	}
 
 	@Override
@@ -62,7 +72,7 @@ public class Routes {
 
 	@Override
 	public String toString() {
-		return "Routes [id=" + id + ", route=" + route + "]";
+		return "Routes [id=" + id + ", route=" + route + ", local=" + local + "]";
 	}
 
 }

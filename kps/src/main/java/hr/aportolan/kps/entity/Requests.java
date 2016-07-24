@@ -3,15 +3,19 @@ package hr.aportolan.kps.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import hr.aportolan.kps.provisioning.ws.ProvisioningState;
+
 @Document
 public class Requests {
 	@Id
 	private String id;
+	private ProvisioningState provisioningState;
 	private Subscribers subscribers;
 
-	public Requests(String id, Subscribers subscribers) {
+	public Requests(String id, ProvisioningState provisioningState, Subscribers subscribers) {
 		super();
 		this.id = id;
+		this.provisioningState = provisioningState;
 		this.subscribers = subscribers;
 	}
 
@@ -32,6 +36,14 @@ public class Requests {
 
 	public void setSubscribers(Subscribers subscribers) {
 		this.subscribers = subscribers;
+	}
+
+	public ProvisioningState getProvisioningState() {
+		return provisioningState;
+	}
+
+	public void setProvisioningState(ProvisioningState provisioningState) {
+		this.provisioningState = provisioningState;
 	}
 
 	@Override
@@ -61,7 +73,7 @@ public class Requests {
 
 	@Override
 	public String toString() {
-		return "Requests [id=" + id + ", subscribers=" + subscribers + "]";
+		return "Requests [id=" + id + ", provisioningState=" + provisioningState + ", subscribers=" + subscribers + "]";
 	}
 
 }

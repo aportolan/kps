@@ -13,8 +13,8 @@
 	</documentation>
 
 	<types>
-		<xsd:schema targetNamespace="http://aportolan.hr/kps/provisioning/notification"
-			xmlns:tns="http://aportolan.hr/kps/provisioning/notification">
+		<xsd:schema targetNamespace="http://aportolan.hr/kps/provisioning/ws"
+			xmlns:tns="http://aportolan.hr/kps/provisioning/ws">
 
 			<xsd:simpleType name="ProvisioningState">
 				<xsd:restriction base="xsd:string">
