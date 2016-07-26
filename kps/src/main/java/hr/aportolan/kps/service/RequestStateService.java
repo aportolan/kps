@@ -2,9 +2,13 @@ package hr.aportolan.kps.service;
 
 import org.springframework.messaging.Message;
 
-import hr.aportolan.kps.provisioning.ws.ProvisioningStateRequestType;
-import hr.aportolan.kps.provisioning.ws.ProvisioningStateResponseType;
+import hr.aportolan.kps.provisioning.ws.CancelProvisioningRequest;
+import hr.aportolan.kps.provisioning.ws.CancelProvisioningResponse;
+import hr.aportolan.kps.provisioning.ws.ProvisioningStateRequest;
+import hr.aportolan.kps.provisioning.ws.ProvisioningStateResponse;
 
 public interface RequestStateService {
-	public Message<ProvisioningStateResponseType> returnState(Message<ProvisioningStateRequestType> message);
+	Message<ProvisioningStateResponse> returnState(Message<ProvisioningStateRequest> message);
+
+	Message<CancelProvisioningResponse> cancel(Message<CancelProvisioningRequest> message);
 }

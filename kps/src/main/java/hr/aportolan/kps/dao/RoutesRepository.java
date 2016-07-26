@@ -6,4 +6,6 @@ import hr.aportolan.kps.entity.Routes;
 
 public interface RoutesRepository extends MongoRepository<Routes, String> {
 
+	Routes findByRoute(String route);
+
 }

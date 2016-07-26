@@ -24,19 +24,30 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.7</java.version>
 
-		<mongodb.uri>mongodb://admin:j6ngIRmkRg47@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/kps</mongodb.uri>
-		<client.ws.notify.url>
-			http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/client/services
-		</client.ws.notify.url>
+
 	</properties>
 
 
 	<profiles>
 		<profile>
 			<id>localhost</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<mongodb.uri>mongodb://localhost:27017/kps</mongodb.uri>
-				<client.ws.notify.url>http://localhost:8400/client/services</client.ws.notify.url>
+				<client.ws.notify.url>http://localhost:8080/kpsws/client</client.ws.notify.url>
+				<kps.ws.url>http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd</kps.ws.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>openshift</id>
+			<properties>
+				<mongodb.uri>mongodb://admin:j6ngIRmkRg47@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/kps</mongodb.uri>
+				<client.ws.notify.url>
+					http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/kpsws/client
+				</client.ws.notify.url>
+				<kps.ws.url>http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/kpsws/services</kps.ws.url>
 			</properties>
 		</profile>
 
@@ -91,11 +102,6 @@
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-ws</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>2.11.0</version>
-		</dependency>
 	</dependencies>
 
 
@@ -104,51 +110,52 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<id>xjc</id>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<schemaDirectory>${project.basedir}/src/main/resources/schema/gen</schemaDirectory>
-					<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-					<clearOutputDir>false</clearOutputDir>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.12.3</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<schemaLanguage>WSDL</schemaLanguage>
-					<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
-					<schemas>
-						<schema>
-							<fileset>
-								<directory>${project.basedir}/src/main/resources/wsdl</directory>
-								<includes>
-									<include>*.wsdl</include>
-								</includes>
-							</fileset>
-						</schema>
-					</schemas>
-				</configuration>
-			</plugin>
+			<!-- <plugin> -->
+			<!-- <groupId>org.codehaus.mojo</groupId> -->
+			<!-- <artifactId>jaxb2-maven-plugin</artifactId> -->
+			<!-- <version>1.6</version> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>xjc</id> -->
+			<!-- <goals> -->
+			<!-- <goal>xjc</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- <configuration> -->
+			<!-- <schemaDirectory>${project.basedir}/src/main/resources/schema/gen</schemaDirectory> -->
+			<!-- <outputDirectory>${project.basedir}/src/main/java</outputDirectory> -->
+			<!-- <clearOutputDir>false</clearOutputDir> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.jvnet.jaxb2.maven2</groupId> -->
+			<!-- <artifactId>maven-jaxb2-plugin</artifactId> -->
+			<!-- <version>0.12.3</version> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <goals> -->
+			<!-- <goal>generate</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- <configuration> -->
+			<!-- <schemaLanguage>WSDL</schemaLanguage> -->
+			<!-- <generateDirectory>${project.basedir}/src/main/java</generateDirectory> -->
+			<!-- <schemas> -->
+			<!-- <schema> -->
+			<!-- <fileset> -->
+			<!-- <directory>${project.basedir}/src/main/resources/wsdl</directory> -->
+			<!-- <includes> -->
+			<!-- <include>*.wsdl</include> -->
+			<!-- </includes> -->
+			<!-- </fileset> -->
+			<!-- </schema> -->
+			<!-- </schemas> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
 		</plugins>
 		<resources>
 			<resource>

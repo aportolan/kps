@@ -10,7 +10,7 @@ import org.springframework.messaging.Message;
 
 import hr.aportolan.kps.dao.ProvisioningSystemRepository;
 import hr.aportolan.kps.provisioning.enums.KpsConstants;
-import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateRequestType;
+import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateRequest;
 import hr.aportolan.kps.service.ProvisioningAggregatorService;
 
 public class ProvisioningAggregatorServiceImpl implements ProvisioningAggregatorService {
@@ -19,25 +19,27 @@ public class ProvisioningAggregatorServiceImpl implements ProvisioningAggregator
 	private ProvisioningSystemRepository provisioningSystemRepository;
 
 	@ReleaseStrategy
+	@Override
 	public boolean release(List<Message<?>> messages) {
 
 		return messages.size() == provisioningSystemRepository.count();
 	}
 
 	@CorrelationStrategy
+	@Override
 	public String correlateBy(Message<?> message) {
 
 		return message.getHeaders().get(KpsConstants.CORRELATION_IDENTIFIER.getValue()).toString();
 
 	}
 
-	public Message<NotifyProvisioningStateRequestType> aggregate(List<Message<?>> messages) {
-		NotifyProvisioningStateRequestType notifyProvisioningStateRequestType = new NotifyProvisioningStateRequestType();
+	@Override
+	public Message<NotifyProvisioningStateRequest> aggregate(List<Message<?>> messages) {
+		NotifyProvisioningStateRequest notifyProvisioningStateRequestType = new NotifyProvisioningStateRequest();
 		notifyProvisioningStateRequestType.setRequestId(
 				messages.get(0).getHeaders().get(KpsConstants.PROVISIONING_REQUEST_ID.getValue()).toString());
 
-		notifyProvisioningStateRequestType
-				.setState(hr.aportolan.kps.provisioning.ws.ProvisioningState.COMPLETE);
+		notifyProvisioningStateRequestType.setState(hr.aportolan.kps.provisioning.ws.ProvisioningState.COMPLETE);
 
 		return MessageBuilder.withPayload(notifyProvisioningStateRequestType).build();
 

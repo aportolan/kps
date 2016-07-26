@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:int-ws="http://www.springframework.org/schema/integration/ws"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/ws http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd">
+
+
+	<int:channel id="wsRequestChannel" />
+
+	<int-ws:inbound-gateway id="inboundGateway"
+		request-channel="wsRequestChannel" reply-channel="imediateResponseChannel"
+		marshaller="marshaller" unmarshaller="marshaller" />
+
+	<int:channel id="imediateResponseChannel" />
+
+	<int:payload-type-router input-channel="wsRequestChannel">
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.ProvisioningStateRequest"
+			channel="serviceStateChannel" />
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberRequest"
+			channel="logRequestInputChannel" />
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.CancelProvisioningRequest"
+			channel="controlServiceChannel" />
+	</int:payload-type-router>
+
+
+	<int:service-activator input-channel="controlServiceChannel"
+		output-channel="outputExceptionCheckerRouterChannel" ref="requestStateServiceImpl"
+		method="cancel" />
+
+	<int:channel id="controlBusChannel" />
+
+	<int:control-bus input-channel="controlBusChanel" />
+
+
+
+	<int:service-activator input-channel="serviceStateChannel"
+		output-channel="outputExceptionCheckerRouterChannel" ref="requestStateServiceImpl"
+		method="returnState" />
+
+	<int:service-activator input-channel="logRequestInputChannel"
+		output-channel="listRouteInputChannel" ref="provisionSubscriberServiceImpl"
+		method="log" />
+
+
+	<int:recipient-list-router input-channel="listRouteInputChannel">
+		<int:recipient channel="transformerChannel" />
+		<int:recipient channel="processChannel" />
+	</int:recipient-list-router>
+
+	<int:service-activator input-channel="transformerChannel"
+		output-channel="outputExceptionCheckerRouterChannel" ref="provisionSubscriberServiceImpl"
+		method="transformToWsOutputImediate" />
+
+	<int:channel id="processChannel">
+		<int:dispatcher task-executor="asyncExecutor" />
+	</int:channel>
+
+	<int:splitter method="split" input-channel="processChannel"
+		output-channel="splitOutChannel">
+		<bean class="hr.aportolan.kps.service.impl.ProvisionSplitterServiceImpl" />
+	</int:splitter>
+
+	<int-http:outbound-gateway url="{outboundGatewayUrl}"
+		id="provisioningOutboundGateway" request-channel="splitOutChannel"
+		reply-channel="provisioningOutputChannel" http-method="{httpMethod}"
+		reply-timeout="100000">
+		<int-http:uri-variable name="outboundGatewayUrl"
+			expression="headers['ENDPOINT_URL']" />
+		<int-http:uri-variable name="httpMethod"
+			expression="headers['HTTP_METHOD']" />
+		<int-http:request-handler-advice-chain>
+			<beans:ref bean="retryAdvice" />
+		</int-http:request-handler-advice-chain>
+	</int-http:outbound-gateway>
+
+	<int:channel id="provisioningOutputChannel">
+		<int:dispatcher task-executor="asyncExecutorProcessData" />
+	</int:channel>
+
+
+	<int:aggregator id="provisioningAggregator"
+		input-channel="provisioningOutputChannel" output-channel="outboundClientWsInvokeChannel"
+		expire-groups-upon-completion="true" send-partial-result-on-expiry="false" 
+		method="aggregate">
+		<bean
+			class="hr.aportolan.kps.service.impl.ProvisioningAggregatorServiceImpl" />
+	</int:aggregator>
+
+	<bean id="clientDestinationProvider"
+		class="org.springframework.ws.client.support.destination.Wsdl11DestinationProvider">
+		<property name="wsdl" value="classpath:wsdl/client.wsdl" />
+	</bean>
+
+
+	<int-ws:outbound-gateway id="marshallingGateway"
+		request-channel="outboundClientWsInvokeChannel" uri="clientDestinationProvider"
+		marshaller="marshaller" unmarshaller="marshaller" />
+
+
+
+	<int:payload-type-router input-channel="outputExceptionCheckerRouterChannel">
+		<int:mapping type="java.lang.Throwable" channel="errorChannel" />
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.ProvisioningStateResponse"
+			channel="imediateResponseChannel" />
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberResponse"
+			channel="imediateResponseChannel" />
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.CancelProvisioningResponse"
+			channel="imediateResponseChannel" />
+	</int:payload-type-router>
+
+	<int:transformer input-channel="errorChannel"
+		output-channel="imediateResponseChannel" method="respondToError">
+		<bean class="hr.aportolan.kps.service.impl.ErrorResponderServiceImpl" />
+	</int:transformer>
+	
+	<int:transformer input-channel="processErrorChannel"
+		output-channel="outboundClientWsInvokeChannel" method="respondToError">
+		<bean class="hr.aportolan.kps.service.impl.ErrorResponderServiceImpl" />
+	</int:transformer>
+	
+
+
+	<task:executor id="asyncExecutor" pool-size="50" />
+	<task:executor id="asyncExecutorProcessData" pool-size="50" />
+
+	<beans:import resource="retry-config.xml" />
+</beans>

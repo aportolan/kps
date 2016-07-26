@@ -1,6 +1,48 @@
+
+var address = "localhost:8080/provisioning/subscribers";
+
+//var address = "http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/provisioning/subscribers";
+
+
+db.routes.deleteMany({});
+db.subscribers.deleteMany({});
+db.provisioning_system.deleteMany({});
+/*
 use kps;
 db.createCollection('subscribers');
 db.createCollection('routes');
 db.createCollection('requests');
 db.createCollection('provisioning_system');
 db.createCollection('provisioning_system_request');
+
+*/
+
+var parentRoute = { route:"route2", local:"0", httpOperation:"GET"};
+for( i= 1;i<=100000;i++)
+{
+
+	var route = { route:"route"+i, local:"0", httpOperation:"GET"};
+	if (i == 1)
+		route = { route:"route"+i, local:"1",httpOperation:"GET" };
+	if(i%2)
+		route = { route:"route"+i, local:"0",httpOperation:"PUT" };
+	if(i%3)
+		route = { route:"route"+i, local:"0",httpOperation:"DELETE" };
+	if(i%4)
+		route = { route:"route"+i, local:"0",httpOperation:"POST" };
+		 
+	db.routes.insert( route );
+	var type = "IN";
+	
+	if(i%3==0)
+		type = "OUT";
+	else if(i%6==0)
+		type = "OTHER";
+	if(i%10==0)
+		parentRoute = { route:"route"+i, local:"0", httpOperation:"GET"};
+		
+	db.subscribers.insert( { name: "subscriber"+i, type:type, route:route, parentRoute:parentRoute } );
+}
+
+for( i= 0;i<10000;i++)
+	db.provisioning_system.insert( { ipAddress:address } );

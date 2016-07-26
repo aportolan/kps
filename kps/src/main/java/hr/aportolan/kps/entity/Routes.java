@@ -3,18 +3,22 @@ package hr.aportolan.kps.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import hr.aportolan.kps.provisioning.enums.HttpOperation;
+
 @Document
 public class Routes {
 	@Id
 	private String id;
 	private String route;
 	private int local;
+	private HttpOperation httpOperation;
 
-	public Routes(String id, String route, int local) {
+	public Routes(String id, String route, int local, HttpOperation httpOperation) {
 		super();
 		this.id = id;
 		this.route = route;
 		this.local = local;
+		this.httpOperation = httpOperation;
 	}
 
 	public Routes() {
@@ -45,6 +49,14 @@ public class Routes {
 		this.local = local;
 	}
 
+	public HttpOperation getHttpOperation() {
+		return httpOperation;
+	}
+
+	public void setHttpOperation(HttpOperation httpOperation) {
+		this.httpOperation = httpOperation;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -72,7 +84,7 @@ public class Routes {
 
 	@Override
 	public String toString() {
-		return "Routes [id=" + id + ", route=" + route + ", local=" + local + "]";
+		return "Routes [id=" + id + ", route=" + route + ", local=" + local + ", httpOperation=" + httpOperation + "]";
 	}
 
 }

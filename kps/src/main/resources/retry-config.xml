@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="retryAdvice"
+		class="org.springframework.integration.handler.advice.RequestHandlerRetryAdvice">
+		<property name="retryTemplate">
+			<bean class="org.springframework.retry.support.RetryTemplate">
+				<property name="backOffPolicy">
+					<bean class="org.springframework.retry.backoff.FixedBackOffPolicy">
+						<property name="backOffPeriod" value="2000" />
+					</bean>
+				</property>
+				<property name="retryPolicy">
+					<bean class="org.springframework.retry.policy.AlwaysRetryPolicy"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

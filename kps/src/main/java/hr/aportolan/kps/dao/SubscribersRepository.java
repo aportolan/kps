@@ -6,4 +6,6 @@ import hr.aportolan.kps.entity.Subscribers;
 
 public interface SubscribersRepository extends MongoRepository<Subscribers, String> {
 
+	Subscribers findByName(String subscriber);
+
 }

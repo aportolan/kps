@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<xsd:schema targetNamespace="http://aportolan.hr/kps/provisioning/ws"
-				xmlns:tns="http://aportolan.hr/kps/provisioning/ws"
+<xsd:schema targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
+				xmlns:tns="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
 				xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<xsd:complexType name="Subscriber">
@@ -18,7 +18,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:element name="ProvisionSubscriberRequestType">
+	<xsd:element name="ProvisionSubscriberRequest">
 		<xsd:complexType>
 			<xsd:complexContent>
 				<xsd:extension base="tns:Subscriber" />
@@ -26,7 +26,7 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="ProvisionSubscriberResponseType">
+	<xsd:element name="ProvisionSubscriberResponse">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="requestId" type="xsd:string" />
@@ -34,7 +34,7 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="ProvisioningStateRequestType">
+	<xsd:element name="ProvisioningStateRequest">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="requestId" type="xsd:string" />
@@ -42,7 +42,7 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="ProvisioningStateResponseType">
+	<xsd:element name="ProvisioningStateResponse">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="state" type="tns:ProvisioningState" />
@@ -50,7 +50,7 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="CancelProvisioningRequestType">
+	<xsd:element name="CancelProvisioningRequest">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="requestId" type="xsd:string" />
@@ -58,9 +58,9 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="CancelProvisioningResponseType" />
+	<xsd:element name="CancelProvisioningResponse" />
 
-	<xsd:element name="FaultMessageType">
+	<xsd:element name="FaultMessage">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="errorMessage" type="xsd:string" />

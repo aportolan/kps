@@ -1,11 +1,11 @@
 package hr.aportolan.kps.service;
 
-import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateRequestType;
-import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateResponseType;
+import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateRequest;
+import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateResponse;
 
 public interface ProvisionWSClientService {
 
-	NotifyProvisioningStateResponseType notifyProvisioningState(
-			NotifyProvisioningStateRequestType notifyProvisioningStateResponse);
+	NotifyProvisioningStateResponse notifyProvisioningState(
+			NotifyProvisioningStateRequest notifyProvisioningStateResponse);
 
 }

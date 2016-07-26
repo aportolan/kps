@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<xsd:schema targetNamespace="http://aportolan.hr/kps/provisioning/ws"
-	xmlns:tns="http://aportolan.hr/kps/provisioning/ws" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
+	xmlns:tns="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<xsd:simpleType name="ProvisioningState">
 		<xsd:restriction base="xsd:string">
@@ -10,7 +10,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:element name="NotifyProvisioningStateRequestType">
+	<xsd:element name="NotifyProvisioningStateRequest">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="requestId" type="xsd:string" />
@@ -19,7 +19,7 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="NotifyProvisioningStateResponseType">
+	<xsd:element name="NotifyProvisioningStateResponse">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="requestId" type="xsd:string" />

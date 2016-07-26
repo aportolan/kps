@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd" targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd">
+
+	<xsd:simpleType name="ProvisioningState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="PENDING"/>
+			<xsd:enumeration value="ERROR"/>
+			<xsd:enumeration value="COMPLETE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="NotifyProvisioningStateRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="requestId" type="xsd:string"/>
+				<xsd:element name="state" type="tns:ProvisioningState"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="NotifyProvisioningStateResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="requestId" type="xsd:string"/>
+				<xsd:element name="state" type="tns:ProvisioningState"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="FaultMessageType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="errorMessage" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="NotifyProvisioningStateRequest">
+    <wsdl:part element="tns:NotifyProvisioningStateRequest" name="NotifyProvisioningStateRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotifyProvisioningStateResponse">
+    <wsdl:part element="tns:NotifyProvisioningStateResponse" name="NotifyProvisioningStateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="client">
+    <wsdl:operation name="NotifyProvisioningState">
+      <wsdl:input message="tns:NotifyProvisioningStateRequest" name="NotifyProvisioningStateRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:NotifyProvisioningStateResponse" name="NotifyProvisioningStateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="clientSoap11" type="tns:client">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="NotifyProvisioningState">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="NotifyProvisioningStateRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="NotifyProvisioningStateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="clientService">
+    <wsdl:port binding="tns:clientSoap11" name="clientSoap11">
+      <soap:address location="http://localhost:8080/kpsws/client/services"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

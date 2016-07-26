@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ImportResource("classpath:hr/aportolan/kps/datasource-config.xml")
+@ImportResource("classpath:integration-config.xml")
 public class KpsApplication {
 
 	public static void main(String[] args) {
