@@ -71,15 +71,13 @@
 
 	<int-http:outbound-gateway url="{outboundGatewayUrl}"
 		id="provisioningOutboundGateway" request-channel="splitOutChannel"
-		reply-channel="provisioningOutputChannel" http-method="{httpMethod}"
+		reply-channel="provisioningOutputChannel" http-method-expression="headers.REQUEST_METHOD"
 		reply-timeout="100000">
 		<int-http:uri-variable name="outboundGatewayUrl"
 			expression="headers['ENDPOINT_URL']" />
-		<int-http:uri-variable name="httpMethod"
-			expression="headers['HTTP_METHOD']" />
-<!-- 		<int-http:request-handler-advice-chain> -->
-<!-- 			<beans:ref bean="retryAdvice" /> -->
-<!-- 		</int-http:request-handler-advice-chain> -->
+		<int-http:request-handler-advice-chain>
+			<beans:ref bean="retryAdvice" />
+		</int-http:request-handler-advice-chain>
 	</int-http:outbound-gateway>
 
 	<int:channel id="provisioningOutputChannel">
@@ -108,7 +106,8 @@
 
 
 	<int:payload-type-router input-channel="outputExceptionCheckerRouterChannel">
-		<int:mapping type="java.lang.Throwable" channel="errorChannel" />
+		<int:mapping type="org.springframework.messaging.support.ErrorMessage"
+			channel="errorChannel" />
 		<int:mapping
 			type="hr.aportolan.kps.provisioning.ws.ProvisioningStateResponse"
 			channel="imediateResponseChannel" />
@@ -120,9 +119,11 @@
 			channel="imediateResponseChannel" />
 	</int:payload-type-router>
 
-	<int:payload-type-router default-output-channel="splitOutChannel"
+	<int:payload-type-router
+		default-output-channel="splitOutChannel"
 		input-channel="outputLongProcessExceptionCheckerRouterChannel">
-		<int:mapping type="java.lang.Throwable" channel="processErrorChannel" />
+		<int:mapping type="org.springframework.messaging.support.ErrorMessage"
+			channel="processErrorChannel" />
 		<int:mapping type="java.util.List" channel="splitOutChannel" />
 		<int:mapping
 			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberResponse"

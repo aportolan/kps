@@ -6,8 +6,6 @@
 		<Console name="CONSOLE" target="SYSTEM_OUT">
 			<PatternLayout
 				pattern="%d{HH:mm:ss.SSS} %-5level %logger{.} (%method:%line) - %msg%n" />
-			<!-- <PatternLayout pattern="%-5p [%X{ip}][%X{user}] %d{dd-MM HH:mm:ss} 
-				%m (%F:%L) \n" /> -->
 
 		</Console>
 

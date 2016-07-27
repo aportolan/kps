@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
@@ -20,7 +21,6 @@ import hr.aportolan.kps.entity.ProvisioningSystemRequest;
 import hr.aportolan.kps.entity.Requests;
 import hr.aportolan.kps.entity.Routes;
 import hr.aportolan.kps.entity.Subscribers;
-import hr.aportolan.kps.provisioning.enums.HttpOperation;
 import hr.aportolan.kps.provisioning.enums.KpsConstants;
 import hr.aportolan.kps.provisioning.rest.dto.Subscriber;
 import hr.aportolan.kps.provisioning.ws.ProvisionSubscriberRequest;
@@ -88,19 +88,19 @@ public class ProvisionSplitterServiceImpl {
 		case DELETE:
 			subscriber.setType("OUT");
 			messageBuilder = MessageBuilder.withPayload(subscriber).setHeader(KpsConstants.REQUEST_METHOD.getValue(),
-					HttpOperation.DELETE.name());
+					HttpMethod.DELETE);
 			break;
 		case POST:
 			subscriber.setType("IN");
 			messageBuilder = MessageBuilder.withPayload(subscriber)
-					.setHeader(KpsConstants.REQUEST_METHOD.getValue(), HttpOperation.POST.name())
+					.setHeader(KpsConstants.REQUEST_METHOD.getValue(), HttpMethod.POST)
 					.setHeader(HttpHeaders.CONTENT_TYPE,
 							MediaType.APPLICATION_JSON_VALUE + ";" + StandardCharsets.UTF_8.displayName());
 			break;
 		case PUT:
 			subscriber.setType("OTHER");
 			messageBuilder = MessageBuilder.withPayload(subscriber)
-					.setHeader(KpsConstants.REQUEST_METHOD.getValue(), HttpOperation.PUT.name())
+					.setHeader(KpsConstants.REQUEST_METHOD.getValue(), HttpMethod.PUT)
 					.setHeader(HttpHeaders.CONTENT_TYPE,
 							MediaType.APPLICATION_JSON_VALUE + ";" + StandardCharsets.UTF_8.displayName());
 
@@ -109,8 +109,7 @@ public class ProvisionSplitterServiceImpl {
 		default:
 			subscriber.setType("OTHER");
 			messageBuilder = MessageBuilder.withPayload(subscriber)
-					.setHeader(KpsConstants.REQUEST_METHOD.getValue(), HttpOperation.PUT.name())
-					.setHeader(HttpHeaders.ACCEPT,
+					.setHeader(KpsConstants.REQUEST_METHOD.getValue(), HttpMethod.GET).setHeader(HttpHeaders.ACCEPT,
 							MediaType.APPLICATION_JSON_VALUE + ";" + StandardCharsets.UTF_8.displayName());
 		}
 

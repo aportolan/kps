@@ -5,7 +5,7 @@ public class KpsUtils {
 		Throwable result = t;
 
 		if (result.getCause() != null)
-			getRootException(result).getCause();
+			getRootException(result.getCause());
 		return result;
 	}
 }

@@ -31,6 +31,7 @@
 	<profiles>
 		<profile>
 			<id>localhost</id>
+
 			<properties>
 				<mongodb.uri>mongodb://localhost:27017/kps</mongodb.uri>
 				<client.ws.notify.url>http://localhost:8080/kpsws/client</client.ws.notify.url>
@@ -43,11 +44,11 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<mongodb.uri>$OPENSHIFT_MONGODB_DB_URL</mongodb.uri>
+				<mongodb.uri>${OPENSHIFT_MONGODB_DB_URL}</mongodb.uri>
 				<client.ws.notify.url>
-					http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/kpsws/client
+					http://${OPENSHIFT_DIY_IP}:${OPENSHIFT_DIY_PORT}/kpsws/client
 				</client.ws.notify.url>
-				<kps.ws.url>http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/kpsws/services</kps.ws.url>
+				<kps.ws.url>http://${OPENSHIFT_DIY_IP}:${OPENSHIFT_DIY_PORT}/kpsws/services</kps.ws.url>
 			</properties>
 		</profile>
 
