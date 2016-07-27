@@ -2,4 +2,5 @@
 .classpath
 .project
 .springBeans
+.settings
 rebel.xml
