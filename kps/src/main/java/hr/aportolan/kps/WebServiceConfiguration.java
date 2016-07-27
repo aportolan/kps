@@ -34,7 +34,7 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
 	@Value("#{inboundGateway}")
 	private MessageEndpoint wsInboundGateway;
 
-	private static final String URI = "http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd";
+	private static final String URI = "http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema";
 
 	@Bean
 	public Jaxb2Marshaller marshaller() {

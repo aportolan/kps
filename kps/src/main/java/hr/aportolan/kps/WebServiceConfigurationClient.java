@@ -13,7 +13,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WebServiceConfigurationClient extends WsConfigurerAdapter {
 
-	private static final String URI = "http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd";
+	private static final String URI = "http://kps-aportolan.rhcloud.com/schema/ProvisioningNotificationSchema";
 
 	@Bean(name = "client")
 	public DefaultWsdl11Definition clientWsdl11Definition() {

@@ -22,7 +22,7 @@ public class RequestStateServiceImpl implements RequestStateService {
 	@Autowired
 	private RequestRepository requestRepository;
 	@Value("#{controlBusChannel}")
-	MessageChannel controlBusChannel;
+	private MessageChannel controlBusChannel;
 
 	@Override
 	public Message<ProvisioningStateResponse> returnState(Message<ProvisioningStateRequest> message) {
@@ -46,8 +46,11 @@ public class RequestStateServiceImpl implements RequestStateService {
 		CancelProvisioningResponse cancelProvisioningResponse = new CancelProvisioningResponse();
 		if (request != null && request.getProvisioningState() != null
 				&& request.getProvisioningState().equals(ProvisioningState.PENDING)) {
+
 			controlBusChannel.send(MessageBuilder
-					.withPayload("'@provisioningOutboundGateway.stop();provisioningAggregator.stop();'").build());
+					.withPayload(
+							"'@provisioningOutboundGateway.stop();@asyncExecutorProcessData.stop();provisioningAggregator.stop();'")
+					.copyHeaders(message.getHeaders()).build());
 
 			request.setProvisioningState(ProvisioningState.ERROR);
 			requestRepository.save(request);

@@ -26,7 +26,7 @@ public class ProvisionSubscriberServiceImpl implements ProvisionSubscriberServic
 		req = requestRepository.save(req);
 
 		return MessageBuilder.fromMessage(message)
-				.setHeaderIfAbsent(KpsConstants.PROVISIONING_REQUEST_ID.toString(), req.getId()).build();
+				.setHeaderIfAbsent(KpsConstants.PROVISIONING_REQUEST_ID.getValue().toString(), req.getId()).build();
 	}
 
 	@Override

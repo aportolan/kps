@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions name="ProvisioningNotificationService"
-	targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
-	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
-	xmlns:types="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
+	targetNamespace="http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema"
+	xmlns:types="http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<documentation>
@@ -13,8 +13,8 @@
 	</documentation>
 
 	<types>
-		<xsd:schema targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
-			xmlns:tns="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd">
+		<xsd:schema targetNamespace="http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema"
+			xmlns:tns="http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema">
 
 			<xsd:simpleType name="ProvisioningState">
 				<xsd:restriction base="xsd:string">

@@ -38,7 +38,7 @@
 
 	<int:channel id="controlBusChannel" />
 
-	<int:control-bus input-channel="controlBusChanel" />
+	<int:control-bus input-channel="controlBusChannel" />
 
 
 
@@ -65,7 +65,7 @@
 	</int:channel>
 
 	<int:splitter method="split" input-channel="processChannel"
-		output-channel="splitOutChannel">
+		output-channel="outputLongProcessExceptionCheckerRouterChannel">
 		<bean class="hr.aportolan.kps.service.impl.ProvisionSplitterServiceImpl" />
 	</int:splitter>
 
@@ -77,9 +77,9 @@
 			expression="headers['ENDPOINT_URL']" />
 		<int-http:uri-variable name="httpMethod"
 			expression="headers['HTTP_METHOD']" />
-		<int-http:request-handler-advice-chain>
-			<beans:ref bean="retryAdvice" />
-		</int-http:request-handler-advice-chain>
+<!-- 		<int-http:request-handler-advice-chain> -->
+<!-- 			<beans:ref bean="retryAdvice" /> -->
+<!-- 		</int-http:request-handler-advice-chain> -->
 	</int-http:outbound-gateway>
 
 	<int:channel id="provisioningOutputChannel">
@@ -88,8 +88,8 @@
 
 
 	<int:aggregator id="provisioningAggregator"
-		input-channel="provisioningOutputChannel" output-channel="outboundClientWsInvokeChannel"
-		expire-groups-upon-completion="true" send-partial-result-on-expiry="false" 
+		input-channel="provisioningOutputChannel" output-channel="outputLongProcessExceptionCheckerRouterChannel"
+		expire-groups-upon-completion="true" send-partial-result-on-expiry="false"
 		method="aggregate">
 		<bean
 			class="hr.aportolan.kps.service.impl.ProvisioningAggregatorServiceImpl" />
@@ -113,23 +113,32 @@
 			type="hr.aportolan.kps.provisioning.ws.ProvisioningStateResponse"
 			channel="imediateResponseChannel" />
 		<int:mapping
-			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberResponse"
-			channel="imediateResponseChannel" />
-		<int:mapping
 			type="hr.aportolan.kps.provisioning.ws.CancelProvisioningResponse"
 			channel="imediateResponseChannel" />
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberResponse"
+			channel="imediateResponseChannel" />
+	</int:payload-type-router>
+
+	<int:payload-type-router default-output-channel="splitOutChannel"
+		input-channel="outputLongProcessExceptionCheckerRouterChannel">
+		<int:mapping type="java.lang.Throwable" channel="processErrorChannel" />
+		<int:mapping type="java.util.List" channel="splitOutChannel" />
+		<int:mapping
+			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberResponse"
+			channel="outboundClientWsInvokeChannel" />
 	</int:payload-type-router>
 
 	<int:transformer input-channel="errorChannel"
 		output-channel="imediateResponseChannel" method="respondToError">
 		<bean class="hr.aportolan.kps.service.impl.ErrorResponderServiceImpl" />
 	</int:transformer>
-	
+
 	<int:transformer input-channel="processErrorChannel"
 		output-channel="outboundClientWsInvokeChannel" method="respondToError">
 		<bean class="hr.aportolan.kps.service.impl.ErrorResponderServiceImpl" />
 	</int:transformer>
-	
+
 
 
 	<task:executor id="asyncExecutor" pool-size="50" />

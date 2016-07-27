@@ -62,7 +62,7 @@ public class ProvisionSplitterServiceImpl {
 
 			message = MessageBuilder.fromMessage(message)
 					.setHeader(KpsConstants.PROVISIONING_SYSTEM_ENDPOINT_URL_HEADER.getValue(),
-							provisioningSystem.getIpAddress() + "/" + request.getPayload().getSubscriber())
+							"http://" + provisioningSystem.getIpAddress() + "/" + request.getPayload().getSubscriber())
 					.setHeader(KpsConstants.CORRELATION_IDENTIFIER.getValue(), correlationId)
 					.setHeader(KpsConstants.PROVISIONING_REQUEST_ID.getValue(),
 							request.getHeaders().get(KpsConstants.PROVISIONING_REQUEST_ID.getValue()).toString())

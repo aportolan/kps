@@ -10,7 +10,7 @@ import org.springframework.messaging.Message;
 
 import hr.aportolan.kps.dao.ProvisioningSystemRepository;
 import hr.aportolan.kps.provisioning.enums.KpsConstants;
-import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateRequest;
+import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateRequest;
 import hr.aportolan.kps.service.ProvisioningAggregatorService;
 
 public class ProvisioningAggregatorServiceImpl implements ProvisioningAggregatorService {

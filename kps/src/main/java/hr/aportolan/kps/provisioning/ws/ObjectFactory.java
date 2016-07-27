@@ -7,10 +7,7 @@
 
 package hr.aportolan.kps.provisioning.ws;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
-import javax.xml.namespace.QName;
 
 /**
  * This object contains factory methods for each Java content interface and Java
@@ -26,8 +23,9 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-	private final static QName _CancelProvisioningResponseType_QNAME = new QName("http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd",
-			"CancelProvisioningResponse");
+	// private final static QName _CancelProvisioningResponseType_QNAME = new
+	// QName("http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema",
+	// "CancelProvisioningResponse");
 
 	/**
 	 * Create a new ObjectFactory that can be used to create new instances of
@@ -93,14 +91,22 @@ public class ObjectFactory {
 		return new CancelProvisioningRequest();
 	}
 
+	public CancelProvisioningResponse createCancelProvisioningResponsetType() {
+		return new CancelProvisioningResponse();
+	}
+
 	/**
 	 * Create an instance of {@link JAXBElement }{@code <}{@link Object }
 	 * {@code >}}
 	 * 
 	 */
-	@XmlElementDecl(namespace = "http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd", name = "CancelProvisioningResponseType")
-	public JAXBElement<Object> createCancelProvisioningResponseType(Object value) {
-		return new JAXBElement<Object>(_CancelProvisioningResponseType_QNAME, Object.class, null, value);
-	}
+	// @XmlElementDecl(namespace =
+	// "http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema",
+	// name = "CancelProvisioningResponseType")
+	// public JAXBElement<Object> createCancelProvisioningResponseType(Object
+	// value) {
+	// return new JAXBElement<Object>(_CancelProvisioningResponseType_QNAME,
+	// Object.class, null, value);
+	// }
 
 }

@@ -7,15 +7,15 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateRequest;
-import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateResponse;
+import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateRequest;
+import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateResponse;
 
 @Endpoint
 public class MockNotifyClientServiceImpl {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MockNotifyClientServiceImpl.class);
-	private static final String NAMESPACE_URI = "http://localhost:8080/schema/ProvisioningNotificationSchema.xsd";
+	private static final String NAMESPACE_URI = "http://kps-aportolan.rhcloud.com/schema/ProvisioningNotificationSchema";
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "NotifyProvisioningState")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "NotifyProvisioningStateRequest")
 	@ResponsePayload
 	public NotifyProvisioningStateResponse notifyClient(@RequestPayload NotifyProvisioningStateRequest request) {
 		NotifyProvisioningStateResponse response = new NotifyProvisioningStateResponse();

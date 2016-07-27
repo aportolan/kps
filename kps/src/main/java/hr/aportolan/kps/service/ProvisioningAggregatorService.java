@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.messaging.Message;
 
-import hr.aportolan.kps.provisioning.ws.NotifyProvisioningStateRequest;
+import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateRequest;
 
 public interface ProvisioningAggregatorService {
 

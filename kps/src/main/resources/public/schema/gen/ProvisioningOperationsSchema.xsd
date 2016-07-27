@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<xsd:schema targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
-				xmlns:tns="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
+<xsd:schema targetNamespace="http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema"
+				xmlns:tns="http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema"
 				xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<xsd:complexType name="Subscriber">

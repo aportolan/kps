@@ -5,7 +5,7 @@
 // Generated on: 2016.07.25 at 07:03:02 AM CEST 
 //
 
-package hr.aportolan.kps.provisioning.ws;
+package hr.aportolan.kps.provisioning.ws.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="state" type="{http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema}ProvisioningState"/>
+ *         &lt;element name="errorMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,32 +36,32 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "state" })
-@XmlRootElement(name = "ProvisioningStateResponse")
-public class ProvisioningStateResponse {
+@XmlType(name = "", propOrder = { "errorMessage" })
+@XmlRootElement(name = "FaultMessage")
+public class FaultMessage {
 
 	@XmlElement(required = true)
-	protected ProvisioningState state;
+	protected String errorMessage;
 
 	/**
-	 * Gets the value of the state property.
+	 * Gets the value of the errorMessage property.
 	 * 
-	 * @return possible object is {@link ProvisioningState }
+	 * @return possible object is {@link String }
 	 * 
 	 */
-	public ProvisioningState getState() {
-		return state;
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 
 	/**
-	 * Sets the value of the state property.
+	 * Sets the value of the errorMessage property.
 	 * 
 	 * @param value
-	 *            allowed object is {@link ProvisioningState }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setState(ProvisioningState value) {
-		this.state = value;
+	public void setErrorMessage(String value) {
+		this.errorMessage = value;
 	}
 
 }

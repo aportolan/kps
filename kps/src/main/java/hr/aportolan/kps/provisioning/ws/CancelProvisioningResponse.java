@@ -10,9 +10,7 @@ package hr.aportolan.kps.provisioning.ws;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  * <p>
@@ -28,9 +26,6 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = "")
 @XmlRootElement(name = "CancelProvisioningResponse")
-@XmlSeeAlso(CancelProvisioningRequest.class)
 public class CancelProvisioningResponse {
-	@XmlValue
-	String dummy = "";
 
 }

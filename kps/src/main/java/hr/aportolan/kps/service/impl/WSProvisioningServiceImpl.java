@@ -11,7 +11,7 @@
 // @Endpoint
 // public class WSProvisioningServiceImpl {
 // private static final String NAMESPACE_URI =
-// "http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd";
+// "http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema";
 //
 // @PayloadRoot(namespace = NAMESPACE_URI, localPart = "CancelProvisioning")
 // @ResponsePayload

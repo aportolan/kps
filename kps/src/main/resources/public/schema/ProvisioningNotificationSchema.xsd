@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<xsd:schema targetNamespace="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd"
-	xmlns:tns="http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema
+	targetNamespace="http://kps-aportolan.rhcloud.com/schema/ProvisioningNotificationSchema"
+	xmlns:tns="http://kps-aportolan.rhcloud.com/schema/ProvisioningNotificationSchema"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<xsd:simpleType name="ProvisioningState">
 		<xsd:restriction base="xsd:string">
@@ -19,14 +21,8 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="NotifyProvisioningStateResponse">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element name="requestId" type="xsd:string" />
-				<xsd:element name="state" type="tns:ProvisioningState" />
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
+	<xsd:element name="NotifyProvisioningStateResponse" />
+
 
 	<xsd:element name="FaultMessageType">
 		<xsd:complexType>
@@ -35,6 +31,7 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+
 </xsd:schema>
 
 

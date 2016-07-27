@@ -37,7 +37,7 @@
 			<properties>
 				<mongodb.uri>mongodb://localhost:27017/kps</mongodb.uri>
 				<client.ws.notify.url>http://localhost:8080/kpsws/client</client.ws.notify.url>
-				<kps.ws.url>http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd</kps.ws.url>
+				<kps.ws.url>http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema</kps.ws.url>
 			</properties>
 		</profile>
 		<profile>
@@ -54,10 +54,6 @@
 	</profiles>
 
 	<dependencies>
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.boot</groupId> -->
-		<!-- <artifactId>spring-boot-starter-data-cassandra</artifactId> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -68,10 +64,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-integration</artifactId>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.boot</groupId> -->
-		<!-- <artifactId>spring-boot-starter-security</artifactId> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

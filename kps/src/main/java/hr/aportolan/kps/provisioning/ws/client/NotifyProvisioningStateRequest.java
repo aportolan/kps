@@ -5,7 +5,7 @@
 // Generated on: 2016.07.25 at 07:01:37 AM CEST 
 //
 
-package hr.aportolan.kps.provisioning.ws;
+package hr.aportolan.kps.provisioning.ws.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import hr.aportolan.kps.provisioning.ws.ProvisioningState;
 
 /**
  * <p>
@@ -28,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="requestId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="state" type="{http://localhost:8080/schema/gen/ProvisioningOperationsSchema.xsd}ProvisioningState"/&gt;
+ *         &lt;element name="state" type="{http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema}ProvisioningState"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;

@@ -1,5 +1,5 @@
 
-var address = "localhost:8080/provisioning/subscribers";
+var address = "http://localhost:8080/provisioning/subscribers";
 
 //var address = "http://$OPENSHIFT_KPS_IP:$OPENSHIFT_KPS_PORT/provisioning/subscribers";
 

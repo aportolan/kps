@@ -5,7 +5,7 @@
 // Generated on: 2016.07.25 at 07:03:02 AM CEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema", elementFormDefault = XmlNsForm.QUALIFIED)
-package hr.aportolan.kps.provisioning.ws;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://kps-aportolan.rhcloud.com/schema/ProvisioningNotificationSchema", elementFormDefault = XmlNsForm.QUALIFIED)
+package hr.aportolan.kps.provisioning.ws.client;
 
 import javax.xml.bind.annotation.XmlNsForm;
