@@ -44,7 +44,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<mongodb.uri>${OPENSHIFT_MONGODB_DB_URL}/kps</mongodb.uri>
+				<mongodb.uri>${OPENSHIFT_MONGODB_DB_URL}kps</mongodb.uri>
 				<client.ws.notify.url>
 					http://${OPENSHIFT_DIY_IP}:${OPENSHIFT_DIY_PORT}/kpsws/client
 				</client.ws.notify.url>
