@@ -30,7 +30,7 @@
 
 	<profiles>
 		<profile>
-			<id>localhost</id>
+			<id>openshift</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
