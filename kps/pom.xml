@@ -30,10 +30,7 @@
 
 	<profiles>
 		<profile>
-			<id>openshift</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+			<id>localhost</id>
 			<properties>
 				<mongodb.uri>mongodb://localhost:27017/kps</mongodb.uri>
 				<client.ws.notify.url>http://localhost:8080/kpsws/client</client.ws.notify.url>
@@ -42,6 +39,9 @@
 		</profile>
 		<profile>
 			<id>openshift</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<mongodb.uri>mongodb://admin:j6ngIRmkRg47@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/kps</mongodb.uri>
 				<client.ws.notify.url>
