@@ -25,11 +25,12 @@ Htio sam dodati ovdje i integration graph, ali ga spring sts nije najsretnije pr
 
 - Klijent šalje jedan od mogućih requestova na podignuti endpoint koji  je u ovom slučaju **inboundGateway** koji prima poruke sa **wsRequestChannel-a**. On ih transformira u objekte preko un/marshallera i prosljeđuje dalje
 - poruke idu na **payload-type-router** koji određuje popayloadu poruke koja će se funkcionalnost odraditi
+- wsRequestChannel šalje error poruke na **erroChannel** gdje se prevode u pravi oblik 
 1. **status**  
   - Ako se zatraži status request-a, router prosljeđuje poruku na service-activator koji u bazi gleda u kojem je stanju request za koji se traži stanje i pretvori objekt u adekvatni response
-  - Status se vraća natrag na **wsRequestChannel-a** i putem ws-a vraća klijentu(preko **outputExceptionCheckerRouterChannel** koji provjerava da li je greška u pitanju i pretvara response u onaj definiran u xsd schemi).
+  - Status se vraća natrag na **wsRequestChannel-a** i putem ws-a vraća klijentu(preko 
 2. **poništavanje**
-  - poruka ide na service activator koji poziva servis koji postavlja status u ERROR (ako je status iz baze bio u PENDING) te na injektirani **controlBusChannel** šalje komandu za prekid rada na elementima **http-outbound-gateway,asyncExecutorProcessData,provisioningAggregator**
+  - poruka ide na service activator koji poziva servis koji postavlja status u ERROR (ako je status iz baze bio u PENDING) te na injektirani **controlBusChannel** šalje komandu za prekid rada na elementu **http-outbound-gateway**
   - **control-bus** odradi svoju magiju (ili bi barem trebao odraditi)
   -  vraća se poruka natrag na **wsRequestChannel-a** i putem ws-a vraća klijentu (preko **outputExceptionCheckerRouterChannel** u pitanju i pretvara response u onaj definiran u xsd schemi).
 3. **provision subscriber-a**
