@@ -25,14 +25,14 @@ Htio sam dodati ovdje i integration graph, ali ga spring sts nije najsretnije pr
 
 - Klijent šalje jedan od mogućih requestova na podignuti endpoint koji  je u ovom slučaju **inboundGateway** koji prima poruke sa **wsRequestChannel-a**. On ih transformira u objekte preko un/marshallera i prosljeđuje dalje
 - poruke idu na **payload-type-router** koji određuje popayloadu poruke koja će se funkcionalnost odraditi
-- wsRequestChannel šalje error poruke na **erroChannel** gdje se prevode u pravi oblik 
+- wsRequestChannel šalje error poruke na **gatewayErroChannel** gdje se prevode u pravi oblik preko transformera
 1. **status**  
   - Ako se zatraži status request-a, router prosljeđuje poruku na service-activator koji u bazi gleda u kojem je stanju request za koji se traži stanje i pretvori objekt u adekvatni response
-  - Status se vraća natrag na **wsRequestChannel-a** i putem ws-a vraća klijentu(preko 
+  - Status se vraća natrag na **wsRequestChannel-a** i putem ws-a vraća klijentu
 2. **poništavanje**
   - poruka ide na service activator koji poziva servis koji postavlja status u ERROR (ako je status iz baze bio u PENDING) te na injektirani **controlBusChannel** šalje komandu za prekid rada na elementu **http-outbound-gateway**
   - **control-bus** odradi svoju magiju (ili bi barem trebao odraditi)
-  -  vraća se poruka natrag na **wsRequestChannel-a** i putem ws-a vraća klijentu (preko **outputExceptionCheckerRouterChannel** u pitanju i pretvara response u onaj definiran u xsd schemi).
+  -  vraća se poruka natrag na **wsRequestChannel-a** i putem ws-a vraća klijentu
 3. **provision subscriber-a**
   - poruka se prosljeđuje na **service-activator** koji zapisuje request u bazu kao log
   - poruka ide dalje prem **recipient-list-router**-u koji šalje request na 2 lokacije: instantni odgovor klijentskom sustavu sa request id-om i nastavak rada na objavi rute za datog subscribera na provisioning sustavima
@@ -45,6 +45,24 @@ Htio sam dodati ovdje i integration graph, ali ga spring sts nije najsretnije pr
   - **http-outbound-gateway** ima u sebi **request-handler-advice-chain** koji preko **retryAdvice** radi retransmisiju failure poruka (sve dok ga nešto ne prekine, ili, što je vjerojatnije u ovom slučaju, dok se ne sruši sustav :) ) -**retryAdvice** je definiran [ovdje](https://github.com/aportolan/kps/blob/master/kps/src/main/resources/retry-config.xml) i inkludan u integracijski xml.
   - Ako je sve prošlo kako treba, poruke bi se trebale vratiti na **provisioningAggregator** koj skuplja sve response-ove i kada su svi stigli (tj. kada je ispunjen uvijet release strategije = koliko provisioning requestova je otišlo, toliko ih se mora i vratiti - taj podatak imam kao count u bazi po requestu) po correlation id-u, radi se slanje notifikacija na kanal koji ide prema izlaznom gateway-u
   - **marshallingGateway** radi soap request i obavještava klijentov soap endpoint da je operacija završila
+  - u koliko je došlo do greške u sustavu, ona se propagira na **errorChannel** koji šalje oruke na **payload-type-router**
+  koji radi provjeru o kakvoj se greški radi i poziva adekvatne transformere za greške (šalje se notifikacija klijentskom sustavu sa ERROR statusom).
+  - error request se logira preko **logging-channel-adapter**-a
+  - sa transformera se requestovi šalju na izlazni ws gateway koji dalje prosljeđuje status na klijentski sustav
 
+##Linkovi
  
- 
+Aplikacija je deploy-ana na http://kps-aportolan.rhcloud.com 
+
+WSDL za komunikaciju:
+http://kps-aportolan.rhcloud.com/kpsws/provisioning.wsdl
+
+Mock WSDL za povratnu komunikaciju na klijenta:
+http://kps-aportolan.rhcloud.com/kpsws/clent/client.wsdl
+
+(kako je ovo proof-of-concept malo sam se igrao sa dinamičkim kreiranjem wsdl-ova, tako da ne izgledaju identično, ali u suštini je komunikacija ista - samo se endpointi malo razlikuju)
+
+Mock REST endpoint (svi url-ovi provisioning sustava gledaju na isti centralni mock endpoint i dijele se u ovisnosti o HTTP metodi)
+Primjer: http://kps-aportolan.rhcloud.com/provisioning/subscribers/subscriber1
+
+MongoDB skripta za punjenje baze je [ovdje](https://github.com/aportolan/kps/blob/master/kps/src/main/resources/mongo_script/database.script)
