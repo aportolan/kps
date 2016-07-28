@@ -1,7 +1,7 @@
 
 //var address = "http://localhost:8080/provisioning/subscribers";
 
-var address = "http://kps-aportolan.rhcloud.com//provisioning/subscribers";
+var address = "http://kps-aportolan.rhcloud.com/provisioning/subscribers";
 
 
 db.routes.deleteMany({});
