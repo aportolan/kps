@@ -6,4 +6,6 @@ import hr.aportolan.kps.entity.ProvisioningSystemRequest;
 
 public interface ProvisioningSystemRequestRepository extends MongoRepository<ProvisioningSystemRequest, String> {
 
+	long countByRequestId(String requestId);
+
 }

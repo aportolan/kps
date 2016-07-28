@@ -12,12 +12,14 @@
 
 
 	<int:channel id="wsRequestChannel" />
+	<int:channel id="gatewayErrorChannel" />
 
 	<int-ws:inbound-gateway id="inboundGateway"
-		request-channel="wsRequestChannel" reply-channel="imediateResponseChannel"
-		marshaller="marshaller" unmarshaller="marshaller" />
+		error-channel="gatewayErrorChannel" request-channel="wsRequestChannel"
+		reply-channel="immediateResponseChannel" marshaller="marshaller"
+		unmarshaller="marshaller" />
 
-	<int:channel id="imediateResponseChannel" />
+	<int:channel id="immediateResponseChannel" />
 
 	<int:payload-type-router input-channel="wsRequestChannel">
 		<int:mapping
@@ -33,18 +35,17 @@
 
 
 	<int:service-activator input-channel="controlServiceChannel"
-		output-channel="outputExceptionCheckerRouterChannel" ref="requestStateServiceImpl"
+		output-channel="immediateResponseChannel" ref="requestStateServiceImpl"
 		method="cancel" />
 
 	<int:channel id="controlBusChannel" />
 
 	<int:control-bus input-channel="controlBusChannel" />
 
-
-
 	<int:service-activator input-channel="serviceStateChannel"
-		output-channel="outputExceptionCheckerRouterChannel" ref="requestStateServiceImpl"
+		output-channel="immediateResponseChannel" ref="requestStateServiceImpl"
 		method="returnState" />
+
 
 	<int:service-activator input-channel="logRequestInputChannel"
 		output-channel="listRouteInputChannel" ref="provisionSubscriberServiceImpl"
@@ -57,20 +58,28 @@
 	</int:recipient-list-router>
 
 	<int:service-activator input-channel="transformerChannel"
-		output-channel="outputExceptionCheckerRouterChannel" ref="provisionSubscriberServiceImpl"
-		method="transformToWsOutputImediate" />
+		output-channel="immediateResponseChannel" ref="provisionSubscriberServiceImpl"
+		method="transformToWsOutputImmediate" />
 
 	<int:channel id="processChannel">
 		<int:dispatcher task-executor="asyncExecutor" />
 	</int:channel>
+	<int:header-enricher input-channel="processChannel"
+		output-channel="headerModifiedChannel" default-overwrite="true">
+		<int:header name="errorChannel" ref="errorChannel" />
+	</int:header-enricher>
 
-	<int:splitter method="split" input-channel="processChannel"
-		output-channel="outputLongProcessExceptionCheckerRouterChannel">
+
+
+	<int:splitter method="split" input-channel="headerModifiedChannel"
+		output-channel="httpGatewayChannel">
 		<bean class="hr.aportolan.kps.service.impl.ProvisionSplitterServiceImpl" />
 	</int:splitter>
 
+
+
 	<int-http:outbound-gateway url="{outboundGatewayUrl}"
-		id="provisioningOutboundGateway" request-channel="splitOutChannel"
+		id="provisioningOutboundGateway" request-channel="httpGatewayChannel"
 		reply-channel="provisioningOutputChannel" http-method-expression="headers.REQUEST_METHOD"
 		reply-timeout="100000">
 		<int-http:uri-variable name="outboundGatewayUrl"
@@ -78,6 +87,7 @@
 		<int-http:request-handler-advice-chain>
 			<beans:ref bean="retryAdvice" />
 		</int-http:request-handler-advice-chain>
+
 	</int-http:outbound-gateway>
 
 	<int:channel id="provisioningOutputChannel">
@@ -86,7 +96,7 @@
 
 
 	<int:aggregator id="provisioningAggregator"
-		input-channel="provisioningOutputChannel" output-channel="outputLongProcessExceptionCheckerRouterChannel"
+		input-channel="provisioningOutputChannel" output-channel="outboundClientWsInvokeChannel"
 		expire-groups-upon-completion="true" send-partial-result-on-expiry="false"
 		method="aggregate">
 		<bean
@@ -100,45 +110,41 @@
 
 
 	<int-ws:outbound-gateway id="marshallingGateway"
-		request-channel="outboundClientWsInvokeChannel" uri="clientDestinationProvider"
-		marshaller="marshaller" unmarshaller="marshaller" />
+		request-channel="outboundClientWsInvokeChannel" reply-channel="outboundWsGatewayResponseChannel"
+		destination-provider="clientDestinationProvider" marshaller="marshaller"
+		unmarshaller="marshaller" />
 
+	<int:channel id="outboundWsGatewayResponseChannel" />
+	<int:logging-channel-adapter level="INFO"
+		channel="outboundWsGatewayResponseChannel" />
 
-
-	<int:payload-type-router input-channel="outputExceptionCheckerRouterChannel">
-		<int:mapping type="org.springframework.messaging.support.ErrorMessage"
-			channel="errorChannel" />
-		<int:mapping
-			type="hr.aportolan.kps.provisioning.ws.ProvisioningStateResponse"
-			channel="imediateResponseChannel" />
-		<int:mapping
-			type="hr.aportolan.kps.provisioning.ws.CancelProvisioningResponse"
-			channel="imediateResponseChannel" />
-		<int:mapping
-			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberResponse"
-			channel="imediateResponseChannel" />
-	</int:payload-type-router>
-
-	<int:payload-type-router
-		default-output-channel="splitOutChannel"
-		input-channel="outputLongProcessExceptionCheckerRouterChannel">
+	<int:payload-type-router input-channel="errorChannel">
+		<int:mapping type="java.lang.Throwable" channel="standardAsyncErrorChannel" />
 		<int:mapping type="org.springframework.messaging.support.ErrorMessage"
 			channel="processErrorChannel" />
-		<int:mapping type="java.util.List" channel="splitOutChannel" />
-		<int:mapping
-			type="hr.aportolan.kps.provisioning.ws.ProvisionSubscriberResponse"
-			channel="outboundClientWsInvokeChannel" />
 	</int:payload-type-router>
 
-	<int:transformer input-channel="errorChannel"
-		output-channel="imediateResponseChannel" method="respondToError">
+	<!-- <int:header-value-router input-channel="errorResponseTypeChannel" -->
+	<!-- default-output-channel="processErrorChannel"> -->
+	<!-- <int:mapping channel="standardErrorChannel" value="ASYNC_ERROR"/> -->
+	<!-- </int:header-value-router> -->
+
+	<int:transformer input-channel="gatewayErrorChannel"
+		output-channel="immediateResponseChannel" method="respondToError">
 		<bean class="hr.aportolan.kps.service.impl.ErrorResponderServiceImpl" />
 	</int:transformer>
 
-	<int:transformer input-channel="processErrorChannel"
-		output-channel="outboundClientWsInvokeChannel" method="respondToError">
+	<int:transformer input-channel="standardAsyncErrorChannel"
+		output-channel="outboundClientWsInvokeChannel" method="respondToStandardAsyncError">
 		<bean class="hr.aportolan.kps.service.impl.ErrorResponderServiceImpl" />
 	</int:transformer>
+
+
+	<int:transformer input-channel="processErrorChannel"
+		output-channel="outboundClientWsInvokeChannel" method="respondToAsyncError">
+		<bean class="hr.aportolan.kps.service.impl.ErrorResponderServiceImpl" />
+	</int:transformer>
+
 
 
 

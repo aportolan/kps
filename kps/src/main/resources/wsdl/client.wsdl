@@ -28,7 +28,7 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="FaultMessageType">
+	<xsd:element name="FaultMessage">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="errorMessage" type="xsd:string"/>

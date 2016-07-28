@@ -24,4 +24,5 @@ public class MockNotifyClientServiceImpl {
 		LOGGER.debug("------------------------------------ Dojavio kijentu!");
 		return response;
 	}
+
 }

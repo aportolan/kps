@@ -9,7 +9,7 @@ public interface ProvisionSubscriberService {
 
 	Message<ProvisionSubscriberRequest> log(Message<ProvisionSubscriberRequest> message);
 
-	Message<ProvisionSubscriberResponse> transformToWsOutputImediate(
+	Message<ProvisionSubscriberResponse> transformToWsOutputImmediate(
 			Message<ProvisionSubscriberRequest> message);
 
 }

@@ -37,8 +37,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "errorMessage" })
-@XmlRootElement(name = "FaultMessage")
-public class FaultMessage {
+@XmlRootElement(name = "NotifyProvisioningStateFault")
+public class NotifyProvisioningStateFault {
 
 	@XmlElement(required = true)
 	protected String errorMessage;

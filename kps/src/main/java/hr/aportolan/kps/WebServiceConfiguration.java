@@ -73,10 +73,12 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
 		String provisionSubscriber = String.format("{%s}%s", URI, "ProvisionSubscriberRequest");
 		String provisioningState = String.format("{%s}%s", URI, "ProvisioningStateRequest");
 		String cancelProvisioning = String.format("{%s}%s", URI, "CancelProvisioningRequest");
+
 		Map<String, Object> endpoints = new HashMap<String, Object>();
 		endpoints.put(provisionSubscriber, wsInboundGateway);
 		endpoints.put(provisioningState, wsInboundGateway);
 		endpoints.put(cancelProvisioning, wsInboundGateway);
+
 		PayloadRootQNameEndpointMapping payloadRootQNameEndpointMapping = new PayloadRootQNameEndpointMapping();
 		payloadRootQNameEndpointMapping.setEndpointMap(endpoints);
 		payloadRootQNameEndpointMapping.setInterceptors(new EndpointInterceptor[] { new PayloadLoggingInterceptor() });

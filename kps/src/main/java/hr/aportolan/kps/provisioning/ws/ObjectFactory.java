@@ -9,6 +9,10 @@ package hr.aportolan.kps.provisioning.ws;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
+import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateFault;
+import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateRequest;
+import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateResponse;
+
 /**
  * This object contains factory methods for each Java content interface and Java
  * element interface generated in the hr.aportolan.kps.provisioning.ws package.
@@ -23,10 +27,6 @@ import javax.xml.bind.annotation.XmlRegistry;
 @XmlRegistry
 public class ObjectFactory {
 
-	// private final static QName _CancelProvisioningResponseType_QNAME = new
-	// QName("http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema",
-	// "CancelProvisioningResponse");
-
 	/**
 	 * Create a new ObjectFactory that can be used to create new instances of
 	 * schema derived classes for package: hr.aportolan.kps.provisioning.ws
@@ -39,7 +39,7 @@ public class ObjectFactory {
 	 * Create an instance of {@link ProvisioningStateResponse }
 	 * 
 	 */
-	public ProvisioningStateResponse createProvisioningStateResponseType() {
+	public ProvisioningStateResponse createProvisioningStateResponse() {
 		return new ProvisioningStateResponse();
 	}
 
@@ -47,7 +47,7 @@ public class ObjectFactory {
 	 * Create an instance of {@link ProvisioningStateRequest }
 	 * 
 	 */
-	public ProvisioningStateRequest createProvisioningStateRequestType() {
+	public ProvisioningStateRequest createProvisioningStateRequest() {
 		return new ProvisioningStateRequest();
 	}
 
@@ -55,7 +55,7 @@ public class ObjectFactory {
 	 * Create an instance of {@link ProvisionSubscriberRequest }
 	 * 
 	 */
-	public ProvisionSubscriberRequest createProvisionSubscriberRequestType() {
+	public ProvisionSubscriberRequest createProvisionSubscriberRequest() {
 		return new ProvisionSubscriberRequest();
 	}
 
@@ -71,42 +71,41 @@ public class ObjectFactory {
 	 * Create an instance of {@link ProvisionSubscriberResponse }
 	 * 
 	 */
-	public ProvisionSubscriberResponse createProvisionSubscriberResponseType() {
+	public ProvisionSubscriberResponse createProvisionSubscriberResponse() {
 		return new ProvisionSubscriberResponse();
 	}
 
 	/**
-	 * Create an instance of {@link FaultMessage }
+	 * Create an instance of {@link MessageFault }
 	 * 
 	 */
-	public FaultMessage createFaultMessageType() {
-		return new FaultMessage();
+	public MessageFault createMessageFault() {
+		return new MessageFault();
 	}
 
 	/**
 	 * Create an instance of {@link CancelProvisioningRequest }
 	 * 
 	 */
-	public CancelProvisioningRequest createCancelProvisioningRequestType() {
+	public CancelProvisioningRequest createCancelProvisioningRequest() {
 		return new CancelProvisioningRequest();
 	}
 
-	public CancelProvisioningResponse createCancelProvisioningResponsetType() {
+	public CancelProvisioningResponse createCancelProvisioningResponset() {
 		return new CancelProvisioningResponse();
 	}
 
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link Object }
-	 * {@code >}}
-	 * 
-	 */
-	// @XmlElementDecl(namespace =
-	// "http://kps-aportolan.rhcloud.com/schema/gen/ProvisioningOperationsSchema",
-	// name = "CancelProvisioningResponseType")
-	// public JAXBElement<Object> createCancelProvisioningResponseType(Object
-	// value) {
-	// return new JAXBElement<Object>(_CancelProvisioningResponseType_QNAME,
-	// Object.class, null, value);
-	// }
+	public NotifyProvisioningStateFault createClientMessageFault() {
+		return new NotifyProvisioningStateFault();
+	}
+
+	public NotifyProvisioningStateRequest createNotifyProvisioningStateRequest() {
+		return new NotifyProvisioningStateRequest();
+	}
+
+	public NotifyProvisioningStateResponse createNotifyProvisioningStateResponse() {
+		return new NotifyProvisioningStateResponse();
+
+	}
 
 }

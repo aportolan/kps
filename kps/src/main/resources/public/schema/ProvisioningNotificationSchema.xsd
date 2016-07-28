@@ -24,7 +24,7 @@
 	<xsd:element name="NotifyProvisioningStateResponse" />
 
 
-	<xsd:element name="FaultMessageType">
+	<xsd:element name="NotifyProvisioningStateFault">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="errorMessage" type="xsd:string" />

@@ -8,7 +8,7 @@ import org.springframework.integration.annotation.ReleaseStrategy;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 
-import hr.aportolan.kps.dao.ProvisioningSystemRepository;
+import hr.aportolan.kps.dao.ProvisioningSystemRequestRepository;
 import hr.aportolan.kps.provisioning.enums.KpsConstants;
 import hr.aportolan.kps.provisioning.ws.client.NotifyProvisioningStateRequest;
 import hr.aportolan.kps.service.ProvisioningAggregatorService;
@@ -16,13 +16,14 @@ import hr.aportolan.kps.service.ProvisioningAggregatorService;
 public class ProvisioningAggregatorServiceImpl implements ProvisioningAggregatorService {
 
 	@Autowired
-	private ProvisioningSystemRepository provisioningSystemRepository;
+	private ProvisioningSystemRequestRepository provisioningSystemRequestRepository;
 
 	@ReleaseStrategy
 	@Override
 	public boolean release(List<Message<?>> messages) {
 
-		return messages.size() == provisioningSystemRepository.count();
+		return messages.size() == provisioningSystemRequestRepository.countByRequestId(
+				messages.get(0).getHeaders().get(KpsConstants.CORRELATION_IDENTIFIER.getValue()).toString());
 	}
 
 	@CorrelationStrategy

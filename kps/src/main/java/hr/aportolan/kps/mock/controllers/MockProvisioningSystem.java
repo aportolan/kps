@@ -72,7 +72,7 @@ public class MockProvisioningSystem {
 	}
 
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Throwable.class)
 	@ResponseBody
 	public Error handleException(HttpServletRequest request, Exception e) {
 

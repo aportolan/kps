@@ -60,7 +60,7 @@
 
 	<xsd:element name="CancelProvisioningResponse" />
 
-	<xsd:element name="FaultMessage">
+	<xsd:element name="MessageFault">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="errorMessage" type="xsd:string" />

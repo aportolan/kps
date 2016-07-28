@@ -26,6 +26,7 @@ public class RequestStateServiceImpl implements RequestStateService {
 
 	@Override
 	public Message<ProvisioningStateResponse> returnState(Message<ProvisioningStateRequest> message) {
+
 		Requests request = requestRepository.findOne(message.getPayload().getRequestId());
 		ProvisioningStateResponse provisioningStateResponseType = new ProvisioningStateResponse();
 
@@ -47,9 +48,7 @@ public class RequestStateServiceImpl implements RequestStateService {
 		if (request != null && request.getProvisioningState() != null
 				&& request.getProvisioningState().equals(ProvisioningState.PENDING)) {
 
-			controlBusChannel.send(MessageBuilder
-					.withPayload(
-							"'@provisioningOutboundGateway.stop();@asyncExecutorProcessData.stop();provisioningAggregator.stop();'")
+			controlBusChannel.send(MessageBuilder.withPayload("@provisioningOutboundGateway.stop()")
 					.copyHeaders(message.getHeaders()).build());
 
 			request.setProvisioningState(ProvisioningState.ERROR);

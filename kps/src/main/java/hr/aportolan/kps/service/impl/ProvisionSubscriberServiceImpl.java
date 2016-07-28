@@ -30,7 +30,7 @@ public class ProvisionSubscriberServiceImpl implements ProvisionSubscriberServic
 	}
 
 	@Override
-	public Message<ProvisionSubscriberResponse> transformToWsOutputImediate(
+	public Message<ProvisionSubscriberResponse> transformToWsOutputImmediate(
 			Message<ProvisionSubscriberRequest> message) {
 		Requests req = new Requests();
 		req.setProvisioningState(ProvisioningState.PENDING);
